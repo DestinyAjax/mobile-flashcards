@@ -28,18 +28,15 @@ export const getDeck = id => {
 export const saveDeckTitle = async (title) => {
     if (title) {
         const all_decks = await getDecks();
-        const new_deck = {
-            [title]: {
-                title: `${title}`,
-                questions: []
-            }
-        };
-
         if (all_decks) {
             const newDecks = {
                 ...all_decks,
-                new_deck
+                [title]: {
+                    title: `${title}`,
+                    questions: []
+                }
             };
+
             await storeDeck(newDecks);
         }
         else {
@@ -62,7 +59,7 @@ export const addCardToDeck = (title, card) => {
                     questions: prev_questions.concat(card)
                 }
             }
-
+            
             await storeDeck(updated_desks);
             resolve();
         }

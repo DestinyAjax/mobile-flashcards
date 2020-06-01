@@ -1,18 +1,18 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button, Text, AsyncStorage } from "react-native";
 import { DeckCard } from "../components";
 import { getDecks } from "../constants/Database";
 
 class DeckListScreen extends React.Component {
 
     state = {
-        desks: {}
+        decks: {}
     };
 
     fetchData = async () => {
         const data = await getDecks();
         this.setState(() => ({
-            desks: data
+            decks: data
         }));
     }
 
@@ -22,23 +22,26 @@ class DeckListScreen extends React.Component {
 
     render() {
         const { decks } = this.state;
-        const keys = Object.keys(decks);
+        const { navigation } = this.props;
+        const keys = decks ? Object.keys(decks) : [];
 
         return (
             <View style={styles.rootContainer}>
-                {keys && keys.length > 0 && keys.map((id, index) => (
-                    <TouchableOpacity key={index}>
-                        <DeckCard title={decks[id].title} cards={decks[id].questions} />
-                    </TouchableOpacity>
-                ))}
-                {keys && keys.length < 1 && (
-                    <View>
-                        <View><Text>No decks found</Text></View>
-                        <View style={styles.btnWrapper}>
-                            <Button onPress={} title="Add New Deck" style={styles.btn} />
+                <View>
+                    {keys && keys.length > 0 && keys.map((id, index) => (
+                        <TouchableOpacity onPress={() => navigation.navigate("deck-details", {title: decks[id].title})} key={index}>
+                            <DeckCard title={decks[id].title} cards={decks[id].questions} />
+                        </TouchableOpacity>
+                    ))}
+                    {keys && keys.length < 1 && (
+                        <View>
+                            <View><Text>No decks found</Text></View>
+                            <View style={styles.btnWrapper}>
+                                <Button onPress={() => navigation.navigate("new-deck")} title="Add New Deck" style={styles.btn} />
+                            </View>
                         </View>
-                    </View>
-                )}
+                    )}
+                </View>
             </View>
         );
     }

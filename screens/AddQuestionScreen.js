@@ -1,7 +1,7 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Button, Alert, Text } from "react-native";
 import { addCardToDeck } from "../constants/Database";
-// this.props.navigation.navigate("chat", {receiverId: {receiverId:order.client_id._id, orderId:order._id}})}
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 class AddQuestionScreen extends React.Component {
 
@@ -12,7 +12,7 @@ class AddQuestionScreen extends React.Component {
     }
 
     componentDidMount() {
-        const { title } = this.props.route.params.title;
+        const { title } = this.props.route.params;
         this.setState(() => ({ title }));
     }
 
@@ -21,6 +21,7 @@ class AddQuestionScreen extends React.Component {
         if (question !== "" && answer !== "") {
             const card = { question, answer };
             await addCardToDeck(title, card);
+            this.props.navigation.navigate("deck-details", {title: title});
         }
         else {
             Alert.alert("Please all fields are required");
@@ -35,20 +36,24 @@ class AddQuestionScreen extends React.Component {
                 <View style={styles.formContiner}>
                     <View style={styles.inputContainer}>
                         <TextInput
-                            onChange={(text)=>{this.setState({question: text})}}
+                            onChangeText={(text)=>{this.setState({question: text})}}
                             value={question}
                             placeholder="Question here..."
+                            style={styles.input}
                         />
                     </View>
                     <View style={styles.inputContainer}>
                         <TextInput 
-                            onChange={(text)=>{this.setState({answer: text})}} 
+                            onChangeText={(text)=>{this.setState({answer: text})}} 
                             value={answer}
                             placeholder="Your answer here..."
+                            style={styles.input}
                         />
                     </View>
                     <View style={styles.btnContainer}>
-                        <Button onPress={this.onSubmitHandler} title="Submit" />
+                        <TouchableOpacity style={styles.btn} onPress={this.onSubmitHandler}>
+                            <Text style={styles.btnText}>Submit</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -61,13 +66,37 @@ const styles = StyleSheet.create({
         flex: 1
     },
     formContiner: {
-        padding: 20
+        padding: 20,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     inputContainer: {
-        marginBottom: 10
+        marginBottom: 10,
+        padding: 10
     },
     btnContainer: {
-        padding: 20
+    },
+    input: {
+        width: 300,
+        padding: 10,
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 5,
+        fontSize: 18
+    },
+    btn: {
+        borderWidth: 2,
+        backgroundColor: '#000',
+        borderRadius: 5,
+        padding: 20,
+        width: 250
+    },
+    btnText: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
     }
 });
 

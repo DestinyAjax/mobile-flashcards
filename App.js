@@ -9,6 +9,9 @@ import LinkingConfiguration from './navigation/LinkingConfiguration';
 
 const Stack = createStackNavigator();
 
+import DeckViewScreen from "./screens/DeckViewScreen";
+import AddQuestionScreen from "./screens/AddQuestionScreen";
+
 export default function App(props) {
   const isLoadingComplete = useCachedResources();
 
@@ -20,7 +23,9 @@ export default function App(props) {
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
         <NavigationContainer linking={LinkingConfiguration}>
           <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
+            <Stack.Screen name="Decks" component={BottomTabNavigator} />
+            <Stack.Screen options={{ headerTitle: 'Deck Details' }} name="deck-details" component={DeckViewScreen} />
+            <Stack.Screen options={{ headerTitle: 'Add Card' }} name="add-card" component={AddQuestionScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

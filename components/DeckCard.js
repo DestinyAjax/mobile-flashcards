@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import PropTypes from "prop-types";
 
 const DeckCard = props => {
@@ -11,7 +11,7 @@ const DeckCard = props => {
                 <Text style={styles.titleText}>{title}</Text>
             </View>
             <View style={styles.counterWrapper}>
-                <Text style={styles.countText}>{cards.length} cards</Text>
+                <Text style={styles.countText}>{cards && cards.length} cards</Text>
             </View>
         </View>
     );
@@ -19,24 +19,26 @@ const DeckCard = props => {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: ''
+        justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#000',
+        padding: 30
     },
     titleWrapper: {
-        marginBottom: 10,
         textAlign: 'center'
     },
     counterWrapper: {
         textAlign: 'center'
     },
     titleText: {
-        fontSize: 20,
+        fontSize: 30,
+        fontWeight: 'bold',
         color: '#000',
     },
     countText: {
         color: '#c5c5c5',
-        fontSize: 14
+        fontSize: 20
     }
 });
 
