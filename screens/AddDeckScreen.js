@@ -20,7 +20,6 @@ class AddDeckScreen extends React.Component {
         await saveDeckTitle(title);
     }
 
-
     render() {
         const { title } = this.state;
 
