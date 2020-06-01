@@ -4,7 +4,9 @@ import { View, StyleSheet } from "react-native";
 class AddDeckScreen extends React.Component {
     render() {
         return (
-            <View style={styles.rootContainer}></View>
+            <View style={styles.rootContainer}>
+                
+            </View>
         );
     }
 }
