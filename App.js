@@ -14,7 +14,7 @@ import AddQuestionScreen from "./screens/AddQuestionScreen";
 import QuizView from "./screens/QuizScreen";
 import ScoreViewScreen from "./screens/ScoreViewScreen";
 
-import { setLocalNotification, clearLocalNotification } from "./constants/utils";
+import { setLocalNotification } from "./constants/utils";
 
 class App extends React.Component {
 
