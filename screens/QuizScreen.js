@@ -53,7 +53,7 @@ class QuizScreen extends React.Component {
         const decks = await getDecks();
         const questionsCount = decks[title].questions.length;
         const questions = decks[title].questions.reverse();
-        const activeCard = questions[1];
+        const activeCard = questions[0];
         this.setState(() => ({ 
             title, 
             decks, 
@@ -82,17 +82,6 @@ class QuizScreen extends React.Component {
     makeScore = type => {
         const { decks, title, answerCounter, questionsCount } = this.state;
         this.setState((prev) => ({ask: prev.ask === false ? true : true}));
-        if (questionsCount === (answerCounter)) {
-            const { correct, inCorrect, title } = this.state;
-            this.props.navigation.navigate("view-score", {
-                title,
-                correct,
-                inCorrect
-            });
-            Alert.alert("You have completed the quiz");
-            return;
-        }
-
         const questions = decks[title].questions;
         const activeCard = questions[answerCounter];
         this.setState((prev) => ({
@@ -106,9 +95,20 @@ class QuizScreen extends React.Component {
         if (type === 'incorrect') {
             this.setState((prev) => ({inCorrect: prev.inCorrect + 1}));
         }
-
         // set notification reminder for tomorrow
         clearLocalNotification().then(setLocalNotification());
+        
+        if (this.state.questionsCount === this.state.answerCounter) {
+            const { correct, inCorrect, title } = this.state;
+            this.props.navigation.navigate("view-score", {
+                title,
+                correct,
+                inCorrect
+            });
+            
+            Alert.alert("You have completed the quiz");
+            return;
+        }
     }
 
     render() {

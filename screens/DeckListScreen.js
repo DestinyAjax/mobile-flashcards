@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Button, Text, AsyncStorage } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Button, Text, ScrollView } from "react-native";
 import { DeckCard } from "../components";
 import { getDecks } from "../constants/Database";
 
@@ -30,7 +30,7 @@ class DeckListScreen extends React.Component {
 
         return (
             <View style={styles.rootContainer}>
-                <View>
+                <ScrollView>
                     {keys && keys.length > 0 && keys.map((id, index) => (
                         <TouchableOpacity onPress={() => navigation.navigate("deck-details", {title: decks[id].title})} key={index}>
                             <DeckCard title={decks[id].title} cards={decks[id].questions} />
@@ -44,7 +44,7 @@ class DeckListScreen extends React.Component {
                             </View>
                         </View>
                     )}
-                </View>
+                </ScrollView>
             </View>
         );
     }
