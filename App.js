@@ -11,6 +11,8 @@ const Stack = createStackNavigator();
 
 import DeckViewScreen from "./screens/DeckViewScreen";
 import AddQuestionScreen from "./screens/AddQuestionScreen";
+import QuizView from "./screens/QuizScreen";
+import ScoreViewScreen from "./screens/ScoreViewScreen";
 
 export default function App(props) {
   const isLoadingComplete = useCachedResources();
@@ -26,6 +28,8 @@ export default function App(props) {
             <Stack.Screen name="Decks" component={BottomTabNavigator} />
             <Stack.Screen options={{ headerTitle: 'Deck Details' }} name="deck-details" component={DeckViewScreen} />
             <Stack.Screen options={{ headerTitle: 'Add Card' }} name="add-card" component={AddQuestionScreen} />
+            <Stack.Screen options={{ headerTitle: 'Quiz View' }} name="add-quiz" component={QuizView} />
+            <Stack.Screen options={{ headerTitle: 'Quiz Score' }} name="view-score" component={ScoreViewScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

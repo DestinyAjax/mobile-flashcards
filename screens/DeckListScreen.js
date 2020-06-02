@@ -18,6 +18,9 @@ class DeckListScreen extends React.Component {
 
     componentDidMount() {
         this.fetchData();
+        this.props.navigation.addListener('focus', () => {
+            this.fetchData();
+        });
     }
 
     render() {

@@ -51,7 +51,7 @@ export const addCardToDeck = (title, card) => {
         const all_decks = await getDecks();
         if (all_decks) {
             const current_deck = all_decks[title];
-            let prev_questions = current_deck.questions;
+            let prev_questions = current_deck.questions ? current_deck.questions : [];
             const updated_desks = {
                 ...all_decks,
                 [title]: {

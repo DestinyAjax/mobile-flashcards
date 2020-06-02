@@ -1,21 +1,24 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { getDecks } from "../constants/Database";
 
-class DeckViewScreen extends React.Component {
+class ScoreViewScreen extends React.Component {
 
     state = {
         title: '',
-        decks: {}
+        correct: 0,
+        incorrect: 0
     }
 
     syncData = async () => {
-        const { title } = this.props.route.params;
-        const decks = await getDecks();
-        this.setState(() => ({ title, decks }));
+        this.setState({incorrect: 0, correct: 0});
+        const { title, correct, inCorrect } = this.props.route.params;
+        this.setState(() => ({ title, 
+            correct,
+            incorrect: inCorrect 
+        }));
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.syncData();
         this.props.navigation.addListener('focus', () => {
             this.syncData();
@@ -24,23 +27,21 @@ class DeckViewScreen extends React.Component {
 
     render() {
         const { navigation } = this.props;
-        const { title, decks } = this.state;
+        const { title, correct, incorrect } = this.state;
 
         return (
             <View style={styles.rootContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.titleText}>{decks && title && decks[title].title}</Text>
-                </View>
-                <View style={styles.counterWrapper}>
-                    <Text style={styles.countText}>{decks && title && decks[title].questions.length} cards</Text>
+                    <Text style={styles.titleText}>Correct Answer: {correct}</Text>
+                    <Text style={styles.titleText}>Incorrect Answer: {incorrect}</Text>
                 </View>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-card", {title: title})}>
-                        <Text style={styles.btnText}>Add Card</Text>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-quiz", {title: title})}>
+                        <Text style={styles.btnText}>Restart Quiz</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("add-quiz", {title: title})}>
-                        <Text style={styles.btnStartText}>Start Quiz</Text>
+                    <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("deck-details", {title: title})}>
+                        <Text style={styles.btnStartText}>Back to Deck</Text>
                     </TouchableOpacity>
                 </View>
                 </View>
@@ -106,4 +107,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DeckViewScreen;
+export default ScoreViewScreen;
