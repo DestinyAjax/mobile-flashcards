@@ -32,18 +32,18 @@ class ScoreViewScreen extends React.Component {
         return (
             <View style={styles.rootContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <View style={styles.titleWrapper}>
-                    <Text style={styles.titleText}>Correct Answer: {correct}</Text>
-                    <Text style={styles.titleText}>Incorrect Answer: {incorrect}</Text>
-                </View>
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-quiz", {title: title})}>
-                        <Text style={styles.btnText}>Restart Quiz</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("deck-details", {title: title})}>
-                        <Text style={styles.btnStartText}>Back to Deck</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.titleWrapper}>
+                        <Text style={styles.titleText}>Correct Answer: {correct}</Text>
+                        <Text style={styles.titleText}>Incorrect Answer: {incorrect}</Text>
+                    </View>
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-quiz", {title: title})}>
+                            <Text style={styles.btnText}>Restart Quiz</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("deck-details", {title: title})}>
+                            <Text style={styles.btnStartText}>Back to Deck</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
