@@ -14,12 +14,15 @@ import AddQuestionScreen from "./screens/AddQuestionScreen";
 import QuizView from "./screens/QuizScreen";
 import ScoreViewScreen from "./screens/ScoreViewScreen";
 
-export default function App(props) {
-  const isLoadingComplete = useCachedResources();
+import { setLocalNotification, clearLocalNotification } from "./constants/utils";
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
+class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification();
+  }
+
+  render() {
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
@@ -43,3 +46,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+export default App;

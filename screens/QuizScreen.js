@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
 import { getDecks } from "../constants/Database";
+import { setLocalNotification, clearLocalNotification } from "../constants/utils";
 
 export const ActiveCard = ({type,card,toggle}) => {
     if (type) {
@@ -105,6 +106,9 @@ class QuizScreen extends React.Component {
         if (type === 'incorrect') {
             this.setState((prev) => ({inCorrect: prev.inCorrect + 1}));
         }
+
+        // set notification reminder for tomorrow
+        clearLocalNotification().then(setLocalNotification());
     }
 
     render() {
