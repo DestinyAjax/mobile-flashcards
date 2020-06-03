@@ -32,12 +32,12 @@ class DeckListScreen extends React.Component {
             <View style={styles.rootContainer}>
                 <ScrollView>
                     {keys && keys.length > 0 && keys.map((id, index) => (
-                        <TouchableOpacity onPress={() => navigation.navigate("deck-details", {title: decks[id].title})} key={index}>
+                        <TouchableOpacity onPress={() => navigation.navigate("deck-details", {title: id})} key={index}>
                             <DeckCard title={decks[id].title} cards={decks[id].questions} />
                         </TouchableOpacity>
                     ))}
                     {keys && keys.length < 1 && (
-                        <View>
+                        <View style={{padding: 20, alignItems: 'center', justifyContent: 'center'}}>
                             <View><Text>No decks found</Text></View>
                             <View style={styles.btnWrapper}>
                                 <Button onPress={() => navigation.navigate("new-deck")} title="Add New Deck" style={styles.btn} />

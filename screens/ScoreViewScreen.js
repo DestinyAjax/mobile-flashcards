@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, BackHandler } from "react-native";
 
 class ScoreViewScreen extends React.Component {
 
@@ -23,7 +23,18 @@ class ScoreViewScreen extends React.Component {
         this.props.navigation.addListener('focus', () => {
             this.syncData();
         });
+
+        this.BackHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
+
+    componentWillUnmount() {
+        this.BackHandler.remove();
+    }
+
+    handleBackButtonClick = () => {
+        this.props.navigation.navigate("Decks");
+        return true;
+    };
 
     render() {
         const { navigation } = this.props;

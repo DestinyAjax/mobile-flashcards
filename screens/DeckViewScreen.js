@@ -1,18 +1,18 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { getDecks } from "../constants/Database";
+import { getDeck } from "../constants/Database";
 
 class DeckViewScreen extends React.Component {
 
     state = {
         title: '',
-        decks: {}
+        deck: {}
     }
 
     syncData = async () => {
         const { title } = this.props.route.params;
-        const decks = await getDecks();
-        this.setState(() => ({ title, decks }));
+        const deck = await getDeck(title);
+        this.setState(() => ({ title, deck }));
     }
 
     componentDidMount() {
@@ -24,16 +24,16 @@ class DeckViewScreen extends React.Component {
 
     render() {
         const { navigation } = this.props;
-        const { title, decks } = this.state;
+        const { title, deck } = this.state;
 
         return (
             <View style={styles.rootContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <View style={styles.titleWrapper}>
-                    <Text style={styles.titleText}>{decks && title && decks[title].title}</Text>
+                    <Text style={styles.titleText}>{deck && deck.title}</Text>
                 </View>
                 <View style={styles.counterWrapper}>
-                    <Text style={styles.countText}>{decks && title && decks[title].questions.length} cards</Text>
+                    <Text style={styles.countText}>{deck && deck.questions && deck.questions.length} cards</Text>
                 </View>
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-card", {title: title})}>

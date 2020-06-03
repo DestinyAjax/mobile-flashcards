@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { generateUID } from "./utils";
 
 const storeDeck = async (payload) => {
     const deck = JSON.stringify(payload);
@@ -8,7 +9,7 @@ const storeDeck = async (payload) => {
 export const getDecks = () => {
     return new Promise(async (resolve, reject) => {
         const decks = await AsyncStorage.getItem("flashcards");
-        setTimeout(() => resolve({...JSON.parse(decks)}), 1000);
+        resolve({...JSON.parse(decks)});
     });
 }
 
@@ -28,10 +29,12 @@ export const getDeck = id => {
 export const saveDeckTitle = async (title) => {
     if (title) {
         const all_decks = await getDecks();
+        const title_id = generateUID();
+
         if (all_decks) {
             const newDecks = {
                 ...all_decks,
-                [title]: {
+                [title_id]: {
                     title: `${title}`,
                     questions: []
                 }
@@ -49,13 +52,14 @@ export const saveDeckTitle = async (title) => {
 export const addCardToDeck = (title, card) => {
     return new Promise(async (resolve, reject) => {
         const all_decks = await getDecks();
+
         if (all_decks) {
             const current_deck = all_decks[title];
             let prev_questions = current_deck.questions ? current_deck.questions : [];
             const updated_desks = {
                 ...all_decks,
                 [title]: {
-                    title: `${title}`,
+                    title: `${current_deck.title}`,
                     questions: prev_questions.concat(card)
                 }
             }

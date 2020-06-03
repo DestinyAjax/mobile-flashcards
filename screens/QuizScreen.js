@@ -102,6 +102,9 @@ class QuizScreen extends React.Component {
                 inCorrect
             });
 
+            // set notification reminder for tomorrow
+            clearLocalNotification().then(setLocalNotification());
+            
             Alert.alert("You have completed the quiz");
             return;
         }
@@ -113,9 +116,6 @@ class QuizScreen extends React.Component {
             answerCounter,
             activeCard
         }));
-
-        // set notification reminder for tomorrow
-        clearLocalNotification().then(setLocalNotification());
     }
 
     render() {
