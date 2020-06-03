@@ -79,36 +79,43 @@ class QuizScreen extends React.Component {
         }));
     }
 
-    makeScore = type => {
-        const { decks, title, answerCounter, questionsCount } = this.state;
-        this.setState((prev) => ({ask: prev.ask === false ? true : true}));
-        const questions = decks[title].questions;
-        const activeCard = questions[answerCounter];
-        this.setState((prev) => ({
-            answerCounter: prev.answerCounter + 1,
-            activeCard
+    setStateSynchronous = (stateUpdate) => {
+        return new Promise(resolve => {
+            this.setState(stateUpdate, () => resolve());
+        });
+    }
+
+    makeScore = async type => {
+        const { decks, title, answerCounter: oldAnswerCounter } = this.state;
+        const answerCounter = oldAnswerCounter + 1;
+
+        await this.setStateSynchronous(state => ({
+            correct: type === 'correct' ? state.correct + 1 : state.correct,
+            inCorrect: type === 'incorrect' ? state.inCorrect + 1 : state.inCorrect
         }));
 
-        if (type === 'correct') {
-            this.setState((prev) => ({correct: prev.correct + 1}));
-        }
-        if (type === 'incorrect') {
-            this.setState((prev) => ({inCorrect: prev.inCorrect + 1}));
-        }
-        // set notification reminder for tomorrow
-        clearLocalNotification().then(setLocalNotification());
-        
-        if (this.state.questionsCount === this.state.answerCounter) {
+        if (this.state.questionsCount === answerCounter) {
             const { correct, inCorrect, title } = this.state;
             this.props.navigation.navigate("view-score", {
                 title,
                 correct,
                 inCorrect
             });
-            
+
             Alert.alert("You have completed the quiz");
             return;
         }
+
+        this.setState((prev) => ({ask: prev.ask === false ? true : true}));
+        const questions = decks[title].questions;
+        const activeCard = questions[answerCounter];
+        this.setState((prev) => ({
+            answerCounter,
+            activeCard
+        }));
+
+        // set notification reminder for tomorrow
+        clearLocalNotification().then(setLocalNotification());
     }
 
     render() {
@@ -119,7 +126,7 @@ class QuizScreen extends React.Component {
                 {questions && questions.length > 0 && (
                     <View>
                         <View style={styles.quizWrapper}>
-                            <Text style={styles.counterText}>{answerCounter}/{questionsCount}</Text>
+                            <Text style={styles.counterText}>{answerCounter + 1}/{questionsCount}</Text>
                         </View>
                         <View style={{marginTop: 40}}>
                             <ActiveCard card={activeCard} type={ask} toggle={this.flipCard}/>
