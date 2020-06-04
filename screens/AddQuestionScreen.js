@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Button, Alert, Text } from "react-native";
+import { View, StyleSheet, TextInput, Alert, Text, KeyboardAvoidingView } from "react-native";
 import { addCardToDeck } from "../constants/Database";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -28,15 +28,21 @@ class AddQuestionScreen extends React.Component {
         }
     }
 
+    onChangeHandler = (value, label) => {
+        this.setState({
+            [label]: value
+        });
+    }
+
     render() {
         const { question, answer } = this.state;
 
         return (
-            <View style={styles.rootContainer}>
+            <KeyboardAvoidingView style={styles.rootContainer}>
                 <View style={styles.formContiner}>
                     <View style={styles.inputContainer}>
                         <TextInput
-                            onChangeText={(text)=>{this.setState({question: text})}}
+                            onChangeText={(e) => this.onChangeHandler(e, 'question')}
                             value={question}
                             placeholder="Question here..."
                             style={styles.input}
@@ -44,7 +50,7 @@ class AddQuestionScreen extends React.Component {
                     </View>
                     <View style={styles.inputContainer}>
                         <TextInput 
-                            onChangeText={(text)=>{this.setState({answer: text})}} 
+                            onChangeText={(e) => this.onChangeHandler(e, 'answer')} 
                             value={answer}
                             placeholder="Your answer here..."
                             style={styles.input}
@@ -56,7 +62,7 @@ class AddQuestionScreen extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }

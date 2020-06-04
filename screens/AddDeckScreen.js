@@ -1,7 +1,8 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text, Alert } from "react-native";
-import { saveDeckTitle } from "../constants/Database";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { saveDeckTitle } from "../constants/Database";
+import { generateUID } from "../constants/utils";
 
 class AddDeckScreen extends React.Component {
 
@@ -11,14 +12,22 @@ class AddDeckScreen extends React.Component {
 
     onHandleSubmit = async () => {
         const { title } = this.state;
+        const id = generateUID();
+
         if (title === "") {
             Alert.alert("Please enter deck title");
             return;
         }
 
-        await saveDeckTitle(title);
+        await saveDeckTitle(title, id);
         this.setState({title: ''});
-        this.props.navigation.navigate("Decks");
+        this.props.navigation.navigate("deck-details", {title: id});
+    }
+
+    onChangeHandler = (value, label) => {
+        this.setState({
+            [label]: value
+        });
     }
 
     render() {
@@ -33,7 +42,7 @@ class AddDeckScreen extends React.Component {
                 </View>
                 <View style={styles.inputWrapper}>
                     <TextInput 
-                        onChangeText={(value) => {this.setState({title: value})}} 
+                        onChangeText={(e) => {this.onChangeHandler(e, 'title')}} 
                         value={title} 
                         style={styles.input} 
                         placeholder="Enter deck title..."

@@ -1,5 +1,4 @@
 import { AsyncStorage } from "react-native";
-import { generateUID } from "./utils";
 
 const storeDeck = async (payload) => {
     const deck = JSON.stringify(payload);
@@ -26,26 +25,20 @@ export const getDeck = id => {
     })
 }
 
-export const saveDeckTitle = async (title) => {
+export const saveDeckTitle = async (title, id) => {
     if (title) {
         const all_decks = await getDecks();
-        const title_id = generateUID();
 
-        if (all_decks) {
-            const newDecks = {
-                ...all_decks,
-                [title_id]: {
-                    title: `${title}`,
-                    questions: []
-                }
-            };
+        const newDecks = {
+            ...all_decks,
+            [id]: {
+                title: `${title}`,
+                questions: []
+            }
+        };
 
-            await storeDeck(newDecks);
-        }
-        else {
-            const newDecks = Object.assign({}, new_deck);
-            await storeDeck(newDecks);
-        }
+        await storeDeck(newDecks);
+        
     }
 }
 

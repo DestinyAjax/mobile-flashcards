@@ -25,24 +25,31 @@ class DeckViewScreen extends React.Component {
     render() {
         const { navigation } = this.props;
         const { title, deck } = this.state;
+        let display_card = 'Card';
+        if (deck && deck.questions && deck.questions.length > 1) {
+            display_card = 'Cards';
+        }
 
         return (
             <View style={styles.rootContainer}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <View style={styles.titleWrapper}>
-                    <Text style={styles.titleText}>{deck && deck.title}</Text>
-                </View>
-                <View style={styles.counterWrapper}>
-                    <Text style={styles.countText}>{deck && deck.questions && deck.questions.length} cards</Text>
-                </View>
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-card", {title: title})}>
-                        <Text style={styles.btnText}>Add Card</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("add-quiz", {title: title})}>
-                        <Text style={styles.btnStartText}>Start Quiz</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.titleWrapper}>
+                        <Text style={styles.titleText}>{deck && deck.title}</Text>
+                    </View>
+                    <View style={styles.counterWrapper}>
+                        <Text style={styles.countText}>
+                            {deck && deck.questions && deck.questions.length}{" "}
+                            {display_card}
+                        </Text>
+                    </View>
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("add-card", {title: title})}>
+                            <Text style={styles.btnText}>Add Card</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btnStart} onPress={() => navigation.navigate("add-quiz", {title: title})}>
+                            <Text style={styles.btnStartText}>Start Quiz</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );

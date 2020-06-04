@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 
 const DeckCard = props => {
     const { title, cards } = props;
+    let display_card = 'Card';
+    if (cards && cards.length > 1) {
+        display_card = 'Cards';
+    }
 
     return (
         <View style={styles.container}>
@@ -11,7 +15,9 @@ const DeckCard = props => {
                 <Text style={styles.titleText}>{title}</Text>
             </View>
             <View style={styles.counterWrapper}>
-                <Text style={styles.countText}>{cards && cards.length} cards</Text>
+                <Text style={styles.countText}>
+                    {cards && cards.length}{" "}{display_card}
+                </Text>
             </View>
         </View>
     );
